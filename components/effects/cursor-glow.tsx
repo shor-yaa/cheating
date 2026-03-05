@@ -154,7 +154,7 @@ export function CursorGlow() {
       // Update targets based on hover
       if (s.isHovering) {
         // Tighten brackets and boost glow/dot on hover (zoom-in effect)
-        s.targetSpread = 3
+        s.targetSpread = 0  // Brackets come very close together on hover
         s.targetGlow = 0.95
         s.targetDotSize = 5
         // Small entrance pulse
@@ -227,8 +227,8 @@ export function CursorGlow() {
       // Brackets should trail behind the center dot
       const bracketTargetX = s.mouseX
       const bracketTargetY = s.mouseY
-      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.15)  // Reduced lerp factor for more trailing
-      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.15)
+      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.3)  // Increased lerp for smoother, less laggy response
+      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.3)
 
       // Animate spread, glow, dot size
       const effectiveTargetSpread = s.targetSpread + s.clickPulseSpread

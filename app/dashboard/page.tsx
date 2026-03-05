@@ -129,82 +129,51 @@ export default function DashboardPage() {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [mouseXSpring, mouseYSpring])
 
+  // Navigate to next featured movie
+  const goToNextMovie = () => {
+    const currentList = contentType === "movies" ? movies : shows
+    setFeaturedIndex((prev) => (prev + 1) % currentList.length)
+  }
+
+  // Navigate to previous featured movie
+  const goToPreviousMovie = () => {
+    const currentList = contentType === "movies" ? movies : shows
+    setFeaturedIndex((prev) => (prev - 1 + currentList.length) % currentList.length)
+  }
+
   return (
     <div className="relative min-h-screen bg-background overflow-hidden" ref={containerRef}>
       <Navbar />
 
       <main className="pt-20 w-full relative">
-          {/* Animated Interactive Background Layers */}
+          {/* Optimized Interactive Background - Reduced animations for better performance */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {/* Primary cyan orb with mouse tracking */}
+            {/* Primary cyan orb - simplified animation */}
             <motion.div
               animate={{
                 x: [0, 30, -20, 0],
                 y: [0, -40, 20, 0],
               }}
               transition={{
-                duration: 20,
+                duration: 25,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              style={{
-                x: mouseXSpring,
-                y: mouseYSpring,
-              }}
               className="absolute top-32 -left-20 h-[400px] w-[400px] rounded-full bg-neon-cyan/10 blur-[120px]"
             />
-            {/* Secondary pink orb with inverted mouse tracking */}
+            {/* Secondary pink orb */}
             <motion.div
               animate={{
                 x: [-30, 20, 30, -30],
                 y: [0, 30, -40, 0],
               }}
               transition={{
-                duration: 25,
+                duration: 30,
                 repeat: Infinity,
                 ease: "easeInOut",
-              }}
-              style={{
-                x: mouseXSpring,
-                y: mouseYSpring,
               }}
               className="absolute right-0 top-20 h-[300px] w-[300px] rounded-full bg-neon-pink/10 blur-[100px]"
             />
-            {/* Tertiary blue orb for depth */}
-            <motion.div
-              animate={{
-                x: [20, -30, 20, 20],
-                y: [30, 0, -30, 30],
-              }}
-              transition={{
-                duration: 22,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute bottom-20 left-1/3 h-[350px] w-[350px] rounded-full bg-blue-500/5 blur-[120px]"
-            />
-            {/* Floating animated particles */}
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={`particle-${i}`}
-                className="absolute w-0.5 h-0.5 bg-neon-cyan rounded-full"
-                animate={{
-                  y: [0, -400, 0],
-                  opacity: [0, 1, 0.5, 0],
-                  x: [0, Math.sin(i) * 100, 0],
-                }}
-                transition={{
-                  duration: 6 + i * 0.8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.2,
-                }}
-                style={{
-                  left: `${10 + i * 12}%`,
-                  top: `${60 + Math.random() * 30}%`,
-                }}
-              />
-            ))}
           </div>
 
           {/* Parallax Background Elements with opacity */}
@@ -284,7 +253,7 @@ export default function DashboardPage() {
                   }
                 </p>
 
-                <div className="flex gap-4 pt-4">
+                <div className="flex gap-4 pt-4 flex-wrap">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -299,6 +268,22 @@ export default function DashboardPage() {
                     className="px-8 py-3 rounded-lg border border-neon-cyan/30 text-neon-cyan font-bold hover:bg-neon-cyan/10 transition-all"
                   >
                     <Heart className="h-5 w-5" />
+                  </motion.button>
+                  <motion.button
+                    onClick={goToPreviousMovie}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-3 rounded-lg border border-neon-pink/30 text-neon-pink font-bold hover:bg-neon-pink/10 transition-all"
+                  >
+                    Previous
+                  </motion.button>
+                  <motion.button
+                    onClick={goToNextMovie}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-6 py-3 rounded-lg bg-neon-pink/20 text-neon-pink font-bold border border-neon-pink/50 hover:bg-neon-pink/30 transition-all"
+                  >
+                    Next
                   </motion.button>
                 </div>
               </motion.div>

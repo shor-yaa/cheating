@@ -1,4 +1,4 @@
-\"use client\"
+ "use client"
 
 import { motion } from "framer-motion";
 import React, { useState, FC, useRef, useEffect } from "react";
@@ -69,12 +69,15 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
             <div className="w-1 h-8 bg-gradient-to-b from-neon-cyan to-neon-pink rounded-full" />
             {title}
           </h2>
-          <motion.button
-            whileHover={{ x: 5 }}
-            className="text-neon-cyan hover:text-neon-pink transition-colors flex items-center gap-2 text-sm font-semibold"
-          >
-            View All <ChevronRight className="h-4 w-4" />
-          </motion.button>
+          <Link href="/search" className="inline-flex items-center gap-2">
+            <motion.span
+              whileHover={{ x: 5 }}
+              className="text-neon-cyan hover:text-neon-pink transition-colors text-sm font-semibold cursor-pointer"
+            >
+              View All
+            </motion.span>
+            <ChevronRight className="h-4 w-4 text-neon-cyan group-hover:text-neon-pink" />
+          </Link>
         </div>
 
         <div className="relative group">
@@ -84,7 +87,7 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
             whileTap={{ scale: 0.9 }}
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}
-            className={`absolute -left-8 top-1/2 -translate-y-1/2 z-20 hidden lg:flex h-14 w-14 items-center justify-center rounded-full transition-all ${
+            className={`absolute -left-4 md:-left-8 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-14 md:w-14 items-center justify-center rounded-full transition-all ${
               canScrollLeft
                 ? "bg-neon-cyan/20 border border-neon-cyan/50 text-neon-cyan hover:bg-neon-cyan/30 hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                 : "bg-muted/20 border border-muted/30 text-muted-foreground opacity-50 cursor-not-allowed"
@@ -223,7 +226,7 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
             whileTap={{ scale: 0.9 }}
             onClick={() => scroll("right")}
             disabled={!canScrollRight}
-            className={`absolute -right-8 top-1/2 -translate-y-1/2 z-20 hidden lg:flex h-14 w-14 items-center justify-center rounded-full transition-all ${
+            className={`absolute -right-4 md:-right-8 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 md:h-14 md:w-14 items-center justify-center rounded-full transition-all ${
               canScrollRight
                 ? "bg-neon-cyan/20 border border-neon-cyan/50 text-neon-cyan hover:bg-neon-cyan/30 hover:shadow-[0_0_30px_rgba(0,240,255,0.5)]"
                 : "bg-muted/20 border border-muted/30 text-muted-foreground opacity-50 cursor-not-allowed"

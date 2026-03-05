@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import {
   Home,
   Compass,
@@ -10,79 +10,18 @@ import {
   Settings,
   Play,
   Star,
-  TrendingUp,
   Zap,
   ChevronRight,
-  LayoutGrid,
-  List,
-  Bell,
-  Search,
 } from "lucide-react"
+import { GlassCard } from "@/components/effects/glass-card"
 import { CursorGlow } from "@/components/effects/cursor-glow"
 import { ParticleBackground } from "@/components/effects/particle-background"
 import { ScrollProgress } from "@/components/effects/scroll-progress"
-import { GlassCard } from "@/components/effects/glass-card"
-import { MagneticButton } from "@/components/effects/magnetic-button"
 import Link from "next/link"
+import { Navbar } from "@/components/layout/navbar"
 import { cn } from "@/lib/utils"
 import { FC } from "react";
 import RecommendationCarousel from "@/components/RecommendationCarousel";
-
-type SidebarProps = {
-  items: Array<{
-    icon: React.ComponentType<{ className?: string }>;
-    label: string;
-    href?: string;
-  }>;
-  activeSidebar: string;
-  setActiveSidebar: (label: string) => void;
-};
-
-const Sidebar: FC<SidebarProps> = ({ items, activeSidebar, setActiveSidebar }) => (
-  <motion.aside
-    initial={{ x: -80, opacity: 0 }}
-    animate={{ x: 0, opacity: 1 }}
-    transition={{ duration: 0.5 }}
-    className="glass fixed left-0 z-40 hidden h-screen w-20 flex-col items-center border-r border-neon-cyan/10 py-6 lg:flex"
-  >
-    <motion.div
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      className="mb-8"
-    >
-      <Link href="/" onClick={() => setActiveSidebar("Home")}>
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-neon-cyan/10 neon-border hover:shadow-[0_0_15px_rgba(0,240,255,0.15)] transition-all">
-          <Zap className="h-5 w-5 text-neon-cyan" />
-        </div>
-      </Link>
-    </motion.div>
-    <div className="flex flex-1 flex-col items-center gap-3">
-      {items.map((item) => {
-        const isActive = activeSidebar === item.label
-        const Wrapper = item.href ? Link : "div"
-        const wrapperProps = item.href
-          ? { href: item.href, onClick: () => setActiveSidebar(item.label) }
-          : { onClick: () => setActiveSidebar(item.label) }
-        return (
-          <MagneticButton key={item.label} strength={0.2}>
-            <Wrapper
-              {...(wrapperProps as any)}
-              className={cn(
-                "flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl transition-all duration-200",
-                isActive
-                  ? "bg-neon-cyan/20 text-neon-cyan shadow-[0_0_20px_rgba(0,240,255,0.3)] border border-neon-cyan/40"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground border border-transparent hover:border-neon-cyan/20"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span className="sr-only">{item.label}</span>
-            </Wrapper>
-          </MagneticButton>
-        )
-      })}
-    </div>
-  </motion.aside>
-)
 
 type RecommendationsProps = {
   items: Array<{
@@ -139,15 +78,9 @@ export default function DashboardPage() {
       <CursorGlow />
       <ParticleBackground />
       <ScrollProgress />
+      <Navbar />
 
-      <div className="flex">
-        <Sidebar
-          items={sidebarItems}
-          activeSidebar={activeSidebar}
-          setActiveSidebar={setActiveSidebar}
-        />
-
-        <main className="flex-1 lg:ml-20 w-full">
+      <main className="pt-20 w-full">
           {/* Hero Section with Featured Movie */}
           <motion.section
             initial={{ opacity: 0 }}
@@ -214,7 +147,7 @@ export default function DashboardPage() {
           </motion.section>
 
           {/* Content Sections */}
-          <div className="pt-8">
+          <div className="pt-8 px-4 lg:px-8">
             <Recommendations
               items={recommendations}
               viewMode={viewMode}
@@ -222,7 +155,6 @@ export default function DashboardPage() {
             />
           </div>
         </main>
-      </div>
     </div>
   )
 }

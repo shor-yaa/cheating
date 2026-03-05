@@ -41,10 +41,6 @@ export function CursorGlow() {
     visible: false,
     // Hover state
     isHovering: false,
-    wasHovering: false,
-    // Magnetic targeting: center of hovered element
-    targetElCx: 0,
-    targetElCy: 0,
     // Focus pulse (glow burst from center dot when focus locks)
     focusPulseOpacity: 0,
     focusPulseRadius: 0,
@@ -146,35 +142,27 @@ export function CursorGlow() {
         s.bracketY = e.clientY
       }
 
-      // Hover detection
+      // Simple hover detection on true interactive elements
       const el = document.elementFromPoint(e.clientX, e.clientY)
-      if (el) {
-        const interactive = el.closest(
-          "a, button, [role='button'], input, textarea, select, [data-interactive], .glass-card"
-        )
-        const nowHovering = !!interactive
+      const interactive = el?.closest(
+        "button, [role='button'], a[href], input, textarea, select, [data-interactive]"
+      )
 
-        s.wasHovering = s.isHovering
-        s.isHovering = nowHovering
-
-        // Magnetic targeting: get center of hovered element
-        if (interactive) {
-          const rect = interactive.getBoundingClientRect()
-          s.targetElCx = rect.left + rect.width / 2
-          s.targetElCy = rect.top + rect.height / 2
-        }
-      } else {
-        s.wasHovering = s.isHovering
-        s.isHovering = false
-      }
+      s.wasHovering = s.isHovering
+      s.isHovering = !!interactive
 
       // Update targets based on hover
       if (s.isHovering) {
-        // Keep bracket spread the same so hover doesn't look like a click
-        s.targetSpread = 8
+        // Tighten brackets and boost glow/dot on hover (zoom-in effect)
+        s.targetSpread = 3
         s.targetGlow = 0.95
         s.targetDotSize = 5
+        // Small entrance pulse
+        if (!s.wasHovering) {
+          s.jitterTimeLeft = 0
+        }
       } else {
+        // Relaxed idle state
         s.targetSpread = 8
         s.targetGlow = 0.3
         s.targetDotSize = 3
@@ -192,7 +180,7 @@ export function CursorGlow() {
       const s = stateRef.current
       const el = document.elementFromPoint(e.clientX, e.clientY)
       const interactive = el?.closest(
-        "a, button, [role='button'], input, textarea, select, [data-interactive], .glass-card"
+        "button, [role='button'], a[href], input, textarea, select, [data-interactive]"
       )
 
       if (interactive) {
@@ -204,6 +192,7 @@ export function CursorGlow() {
         s.ripple2Opacity = 0.4
         s.clickPulseSpread = 10
         s.targetSpread = -2
+        s.jitterTimeLeft = 0
         setTimeout(() => {
           s.clickPulseSpread = 0
           // After the click pulse, always return to the neutral spread
@@ -235,20 +224,11 @@ export function CursorGlow() {
         return
       }
 
-      // --- Magnetic targeting: pull brackets toward hovered element center ---
-      let bracketTargetX = s.mouseX
-      let bracketTargetY = s.mouseY
-
-      if (s.isHovering) {
-        // Gently bias bracket position toward element center (30% pull)
-        const magnetStrength = 0.3
-        bracketTargetX = lerp(s.mouseX, s.targetElCx, magnetStrength)
-        bracketTargetY = lerp(s.mouseY, s.targetElCy, magnetStrength)
-      }
-
-      // Brackets trail toward the (possibly magnetically-biased) target
-      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.12)
-      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.12)
+      // Brackets should stay wrapped tightly around the center dot
+      const bracketTargetX = s.mouseX
+      const bracketTargetY = s.mouseY
+      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.4)
+      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.4)
 
       // Animate spread, glow, dot size
       const effectiveTargetSpread = s.targetSpread + s.clickPulseSpread
@@ -297,17 +277,9 @@ export function CursorGlow() {
         s.focusPulseRadius = 0
       }
 
-      // --- Micro jitter stabilization ---
-      if (s.jitterTimeLeft > 0) {
-        s.jitterTimeLeft -= dt
-        // Generate small random offsets that decay over the 120ms window
-        const intensity = Math.max(0, s.jitterTimeLeft / 120) * 1.8
-        s.jitterOffsetX = (Math.random() - 0.5) * intensity
-        s.jitterOffsetY = (Math.random() - 0.5) * intensity
-      } else {
-        s.jitterOffsetX = 0
-        s.jitterOffsetY = 0
-      }
+      // Disable extra jitter to keep animation smooth
+      s.jitterOffsetX = 0
+      s.jitterOffsetY = 0
 
       const bx = s.bracketX
       const by = s.bracketY

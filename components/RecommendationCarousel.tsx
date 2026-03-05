@@ -46,12 +46,8 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
   const scroll = (direction: "left" | "right") => {
     if (!scrollContainerRef.current) return;
     const scrollAmount = 400;
-    const newScrollLeft =
-      scrollContainerRef.current.scrollLeft +
-      (direction === "left" ? -scrollAmount : scrollAmount);
-    
-    scrollContainerRef.current.scrollTo({
-      left: newScrollLeft,
+    scrollContainerRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
     });
   };
@@ -112,35 +108,38 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
                 onHoverEnd={() => setHovered(null)}
                 className="relative flex-shrink-0 group/card"
               >
-                {/* Glow Effect */}
-                {hovered === index && (
-                  <motion.div
-                    layoutId="glow"
-                    className="absolute -inset-3 bg-gradient-to-r from-neon-cyan via-neon-pink to-neon-blue rounded-2xl blur-xl opacity-40 -z-10"
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
 
                 {/* Card Container wrapped in Link for SPA navigation */}
                 <Link href={`/detail/${movie.id}`} className="block">
                   <motion.div
                     className="relative w-72 h-[420px] rounded-2xl overflow-hidden cursor-pointer bg-secondary/40 border-2 border-neon-cyan/20 backdrop-blur-sm flex-shrink-0"
                     animate={{
-                      scale: hovered === index ? 1.08 : 1,
-                      y: hovered === index ? -24 : 0,
                       borderColor: hovered === index ? "rgba(0, 240, 255, 0.6)" : "rgba(0, 240, 255, 0.2)",
                     }}
-                    transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
+                    transition={{ duration: 0.3 }}
                   >
                     {/* Poster Image */}
                     <img
                       src={movie.poster}
                       alt={movie.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-110"
                     />
 
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
+
+                    {/* Play button overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neon-cyan/20 backdrop-blur-sm">
+                        <Play className="h-6 w-6 text-neon-cyan" />
+                      </div>
+                    </div>
+
+                    {/* Rating badge */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1 rounded-lg bg-background/60 px-2 py-1 text-xs font-semibold backdrop-blur-sm opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                      <Star className="h-3 w-3 fill-neon-cyan text-neon-cyan" />
+                      <span className="text-neon-cyan">{movie.rating}</span>
+                    </div>
 
                     {/* Hover Content */}
                     <motion.div
@@ -149,53 +148,26 @@ const RecommendationCarousel: FC<RecommendationCarouselProps> = ({
                         y: hovered === index ? 0 : 30,
                       }}
                       transition={{ duration: 0.3 }}
-                      className="absolute inset-0 flex flex-col justify-between p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent"
+                      className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/95 via-black/60 to-transparent"
                     >
-                      {/* Top Section */}
-                      <div />
+                      {/* Movie Info */}
+                      <div className="space-y-2">
+                        <h3 className="text-base font-bold text-white line-clamp-2">
+                          {movie.title}
+                        </h3>
 
-                      {/* Bottom Section */}
-                      <div className="space-y-4">
-                        {/* Play Button with Icon */}
-                        <div className="flex gap-3">
-                          <motion.button
-                            type="button"
-                            whileHover={{ scale: 1.12, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="flex-1 px-4 py-3 rounded-lg bg-neon-cyan/95 hover:bg-neon-cyan text-black font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.6)] transition-all"
-                          >
-                            <Play className="h-5 w-5 fill-black" />
-                            Play
-                          </motion.button>
-                          <motion.button
-                            type="button"
-                            whileHover={{ scale: 1.12 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-3 py-3 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-all"
-                          >
-                            <Heart className="h-5 w-5" />
-                          </motion.button>
-                        </div>
-
-                        {/* Movie Info */}
-                        <div className="space-y-2">
-                          <h3 className="text-base font-bold text-white line-clamp-2">
-                            {movie.title}
-                          </h3>
-
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-neon-cyan/20 border border-neon-cyan/40">
-                              <Star className="h-3.5 w-3.5 fill-neon-cyan text-neon-cyan" />
-                              <span className="text-xs text-neon-cyan font-bold">
-                                {movie.rating}
-                              </span>
-                            </div>
-                            {movie.genre && (
-                              <span className="text-xs text-muted-foreground bg-black/40 px-2 py-1 rounded">
-                                {movie.genre}
-                              </span>
-                            )}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-neon-cyan/20 border border-neon-cyan/40">
+                            <Star className="h-3.5 w-3.5 fill-neon-cyan text-neon-cyan" />
+                            <span className="text-xs text-neon-cyan font-bold">
+                              {movie.rating}
+                            </span>
                           </div>
+                          {movie.genre && (
+                            <span className="text-xs text-muted-foreground bg-black/40 px-2 py-1 rounded">
+                              {movie.genre}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </motion.div>

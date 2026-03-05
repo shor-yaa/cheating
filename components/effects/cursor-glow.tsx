@@ -224,11 +224,11 @@ export function CursorGlow() {
         return
       }
 
-      // Brackets should stay wrapped tightly around the center dot
+      // Brackets should trail behind the center dot
       const bracketTargetX = s.mouseX
       const bracketTargetY = s.mouseY
-      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.4)
-      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.4)
+      s.bracketX = lerp(s.bracketX, bracketTargetX, 0.15)  // Reduced lerp factor for more trailing
+      s.bracketY = lerp(s.bracketY, bracketTargetY, 0.15)
 
       // Animate spread, glow, dot size
       const effectiveTargetSpread = s.targetSpread + s.clickPulseSpread

@@ -12,15 +12,15 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 const allMedia = [
-  { id: 1, title: "Neon Shadows", genre: "Sci-Fi", subgenre: "Thriller", rating: 9.2, year: 2026, image: "/images/media-1.jpg", duration: "2h 14m" },
-  { id: 2, title: "Beyond the Void", genre: "Sci-Fi", subgenre: "Space Opera", rating: 8.8, year: 2026, image: "/images/media-2.jpg", duration: "1h 58m" },
-  { id: 3, title: "Dragon Epoch", genre: "Fantasy", subgenre: "Dark Fantasy", rating: 9.5, year: 2025, image: "/images/media-3.jpg", duration: "2h 31m" },
-  { id: 4, title: "Midnight Circuit", genre: "Thriller", subgenre: "Neo-Noir", rating: 8.6, year: 2026, image: "/images/media-4.jpg", duration: "1h 47m" },
-  { id: 5, title: "The Deep", genre: "Mystery", subgenre: "Underwater", rating: 8.9, year: 2025, image: "/images/media-5.jpg", duration: "2h 05m" },
-  { id: 6, title: "Velocity X", genre: "Action", subgenre: "Racing", rating: 8.4, year: 2026, image: "/images/media-6.jpg", duration: "1h 52m" },
-  { id: 7, title: "Phantom Signal", genre: "Sci-Fi", subgenre: "Horror", rating: 8.1, year: 2025, image: "/images/media-1.jpg", duration: "1h 39m" },
-  { id: 8, title: "Crown of Ashes", genre: "Fantasy", subgenre: "Epic", rating: 9.0, year: 2026, image: "/images/media-3.jpg", duration: "2h 45m" },
-  { id: 9, title: "Zero Gravity", genre: "Action", subgenre: "Adventure", rating: 7.8, year: 2025, image: "/images/media-6.jpg", duration: "1h 55m" },
+  { id: 1, title: "Inception", genre: "Sci-Fi", subgenre: "Mind-Bending", rating: 8.8, year: 2010, image: "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg", duration: "2h 28m" },
+  { id: 2, title: "The Dark Knight", genre: "Action", subgenre: "Superhero", rating: 9.0, year: 2008, image: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", duration: "2h 32m" },
+  { id: 3, title: "Interstellar", genre: "Sci-Fi", subgenre: "Space Opera", rating: 8.6, year: 2014, image: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", duration: "2h 49m" },
+  { id: 4, title: "Parasite", genre: "Thriller", subgenre: "Satire", rating: 8.5, year: 2019, image: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg", duration: "2h 12m" },
+  { id: 5, title: "The Shawshank Redemption", genre: "Drama", subgenre: "Prison", rating: 9.3, year: 1994, image: "https://image.tmdb.org/t/p/w500/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg", duration: "2h 22m" },
+  { id: 6, title: "Pulp Fiction", genre: "Crime", subgenre: "Black Comedy", rating: 8.9, year: 1994, image: "https://image.tmdb.org/t/p/w500/dM2w364MScsjFf8pfMbaWUcWrR.jpg", duration: "2h 34m" },
+  { id: 7, title: "The Godfather", genre: "Crime", subgenre: "Mafia", rating: 9.2, year: 1972, image: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", duration: "2h 55m" },
+  { id: 8, title: "Forrest Gump", genre: "Drama", subgenre: "Feel-Good", rating: 8.8, year: 1994, image: "https://image.tmdb.org/t/p/w500/clolk7rB5lAjs41SD0Vt6IXYLMm.jpg", duration: "2h 22m" },
+  { id: 9, title: "The Matrix", genre: "Sci-Fi", subgenre: "Cyberpunk", rating: 8.7, year: 1999, image: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", duration: "2h 16m" },
 ]
 
 const genres = ["All", "Sci-Fi", "Fantasy", "Thriller", "Mystery", "Action"]

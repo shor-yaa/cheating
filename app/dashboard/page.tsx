@@ -66,32 +66,32 @@ export default function DashboardPage() {
 
   const movies = useMemo(
     () => [
-      { id: 1, title: "Inception", genre: "Sci-Fi", rating: "8.8", poster: "/images/media-1.jpg" },
-      { id: 2, title: "The Dark Knight", genre: "Action", rating: "9.0", poster: "/images/media-2.jpg" },
-      { id: 3, title: "Interstellar", genre: "Sci-Fi", rating: "8.6", poster: "/images/media-3.jpg" },
-      { id: 4, title: "Parasite", genre: "Thriller", rating: "8.5", poster: "/images/media-4.jpg" },
-      { id: 5, title: "Oppenheimer", genre: "Biography", rating: "8.3", poster: "/images/media-5.jpg" },
-      { id: 6, title: "The Shawshank Redemption", genre: "Drama", rating: "9.3", poster: "/images/media-6.jpg" },
-      { id: 7, title: "Pulp Fiction", genre: "Crime", rating: "8.9", poster: "/images/media-1.jpg" },
-      { id: 8, title: "The Godfather", genre: "Crime", rating: "9.2", poster: "/images/media-2.jpg" },
-      { id: 9, title: "Forrest Gump", genre: "Drama", rating: "8.8", poster: "/images/media-3.jpg" },
-      { id: 10, title: "The Matrix", genre: "Sci-Fi", rating: "8.7", poster: "/images/media-4.jpg" },
+      { id: 1, title: "Inception", genre: "Sci-Fi", rating: "8.8", poster: "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg" },
+      { id: 2, title: "The Dark Knight", genre: "Action", rating: "9.0", poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
+      { id: 3, title: "Interstellar", genre: "Sci-Fi", rating: "8.6", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" },
+      { id: 4, title: "Parasite", genre: "Thriller", rating: "8.5", poster: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" },
+      { id: 5, title: "Oppenheimer", genre: "Biography", rating: "8.3", poster: "https://m.media-amazon.com/images/I/61etSDPZjsL._AC_UF894,1000_QL80_.jpg" },
+      { id: 6, title: "The Shawshank Redemption", genre: "Drama", rating: "9.3", poster: "https://image.tmdb.org/t/p/w500/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg" },
+      { id: 7, title: "Pulp Fiction", genre: "Crime", rating: "8.9", poster: "https://www.tallengestore.com/cdn/shop/products/PulpFiction-JohnTravoltaAndSamuelLJackson-MovieStill1_92bdb33d-350e-43b9-a06e-abc499510a30.jpg?v=1684129892" },
+      { id: 8, title: "The Godfather", genre: "Crime", rating: "9.2", poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" },
+      { id: 9, title: "Forrest Gump", genre: "Drama", rating: "8.8", poster: "https://image.tmdb.org/t/p/w500/clolk7rB5lAjs41SD0Vt6IXYLMm.jpg" },
+      { id: 10, title: "The Matrix", genre: "Sci-Fi", rating: "8.7", poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
     ],
     []
   )
 
   const shows = useMemo(
     () => [
-      { id: 11, title: "Breaking Bad", genre: "Crime", rating: "9.5", poster: "/images/media-5.jpg" },
-      { id: 12, title: "Game of Thrones", genre: "Fantasy", rating: "9.2", poster: "/images/media-6.jpg" },
-      { id: 13, title: "The Mandalorian", genre: "Sci-Fi", rating: "8.7", poster: "/images/media-1.jpg" },
-      { id: 14, title: "Stranger Things", genre: "Sci-Fi", rating: "8.7", poster: "/images/media-2.jpg" },
-      { id: 15, title: "The Crown", genre: "Biography", rating: "8.6", poster: "/images/media-3.jpg" },
-      { id: 16, title: "The Office", genre: "Comedy", rating: "8.9", poster: "/images/media-4.jpg" },
-      { id: 17, title: "Friends", genre: "Comedy", rating: "8.9", poster: "/images/media-5.jpg" },
-      { id: 18, title: "Black Mirror", genre: "Sci-Fi", rating: "8.8", poster: "/images/media-6.jpg" },
-      { id: 19, title: "The Witcher", genre: "Fantasy", rating: "8.2", poster: "/images/media-1.jpg" },
-      { id: 20, title: "House of Cards", genre: "Drama", rating: "8.6", poster: "/images/media-2.jpg" },
+      { id: 11, title: "Breaking Bad", genre: "Crime", rating: "9.5", poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg" },
+      { id: 12, title: "Game of Thrones", genre: "Fantasy", rating: "9.2", poster: "https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg" },
+      { id: 13, title: "The Mandalorian", genre: "Sci-Fi", rating: "8.7", poster: "https://image.tmdb.org/t/p/w500/sWgBv7LV2PRoQgkxwlibdGXKz1S.jpg" },
+      { id: 14, title: "Stranger Things", genre: "Sci-Fi", rating: "8.7", poster: "https://image.tmdb.org/t/p/w500/x2LSRK2Cm7MZhjluni1msVJ3wDF.jpg" },
+      { id: 15, title: "The Crown", genre: "Biography", rating: "8.6", poster: "https://via.placeholder.com/500x750.png?text=The+Crown+Poster" },
+      { id: 16, title: "The Office", genre: "Comedy", rating: "8.9", poster: "https://image.tmdb.org/t/p/w500/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg" },
+      { id: 17, title: "Friends", genre: "Comedy", rating: "8.9", poster: "https://image.tmdb.org/t/p/w500/f496cm9enuEsZkSPzCwnTESEK5s.jpg" },
+      { id: 18, title: "Black Mirror", genre: "Sci-Fi", rating: "8.8", poster: "https://via.placeholder.com/500x750.png?text=Black+Mirror+Poster" },
+      { id: 19, title: "The Witcher", genre: "Fantasy", rating: "8.2", poster: "https://image.tmdb.org/t/p/w500/zrPpUlehQaBf8YX2NrVrKK8IEpf.jpg" },
+      { id: 20, title: "House of Cards", genre: "Drama", rating: "8.6", poster: "https://via.placeholder.com/500x750.png?text=House+of+Cards+Poster" },
     ],
     []
   )

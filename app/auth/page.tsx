@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ArrowLeft,
   Eye,
+  Star,
   EyeOff,
   Zap,
   Check,
@@ -16,6 +17,13 @@ import {
 import { CursorGlow } from "@/components/effects/cursor-glow"
 import { ParticleBackground } from "@/components/effects/particle-background"
 import { MagneticButton } from "@/components/effects/magnetic-button"
+import { 
+  Breadcrumb, 
+  BreadcrumbItem, 
+  BreadcrumbLink, 
+  BreadcrumbList, 
+  BreadcrumbSeparator 
+} from "@/components/ui/breadcrumb"
 import Link from "next/link"
 
 type AuthMode = "signin" | "signup"
@@ -44,6 +52,11 @@ export default function AuthPage() {
   const [step, setStep] = useState(1)
   const [showPassword, setShowPassword] = useState(false)
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
+  
+  // NEW STATE FOR ROUND 3
+  const [rating, setRating] = useState(0)
+  const [hover, setHover] = useState(0)
+  const [showToast, setShowToast] = useState(false)
 
   const toggleGenre = (genre: string) => {
     setSelectedGenres((prev) =>
@@ -55,15 +68,31 @@ export default function AuthPage() {
     )
   }
 
+  const handleToast = () => {
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 3000)
+  }
+
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background font-sans">
       <CursorGlow />
       <ParticleBackground />
+
+      {/* 1. BREADCRUMB NAVIGATION (ROUND 3) */}
+      <div className="absolute top-6 left-24 z-20 hidden md:block">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/" className="text-muted-foreground hover:text-neon-cyan">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><span className="text-neon-cyan">Authentication</span></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
 
       {/* Back to home */}
       <Link
         href="/"
-        className="glass absolute top-6 left-6 z-20 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        className="glass absolute top-6 left-6 z-20 flex items-center gap-2 rounded-lg px-4 py-2 text-sm text-muted-foreground transition-colors hover:text-white"
       >
         <ArrowLeft className="h-4 w-4" />
         Home
@@ -119,7 +148,7 @@ export default function AuthPage() {
           ))}
         </motion.div>
 
-        {/* Step Indicator (Sign Up only) */}
+        {/* 2. STEP PROGRESS TRACKER (SIGN UP ONLY) */}
         <AnimatePresence>
           {mode === "signup" && (
             <motion.div
@@ -141,30 +170,11 @@ export default function AuthPage() {
                               : "border border-border bg-secondary text-muted-foreground"
                         }`}
                       >
-                        {step > s.id ? (
-                          <Check className="h-4 w-4" />
-                        ) : (
-                          s.id
-                        )}
+                        {step > s.id ? <Check className="h-4 w-4" /> : s.id}
                       </div>
-                      <span
-                        className={`hidden text-xs font-medium sm:block ${
-                          step >= s.id
-                            ? "text-foreground"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {s.label}
-                      </span>
                     </div>
                     {i < signupSteps.length - 1 && (
-                      <div
-                        className={`mx-3 h-[1px] w-12 sm:w-16 ${
-                          step > s.id
-                            ? "bg-neon-cyan"
-                            : "bg-border"
-                        }`}
-                      />
+                      <div className={`mx-3 h-[1px] w-12 ${step > s.id ? "bg-neon-cyan" : "bg-border"}`} />
                     )}
                   </div>
                 ))}
@@ -182,211 +192,83 @@ export default function AuthPage() {
         >
           <AnimatePresence mode="wait">
             {mode === "signin" ? (
-              <motion.div
-                key="signin"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-4"
-              >
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground">Welcome back</h2>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Sign in to continue your journey
-                  </p>
+              <motion.div key="signin" className="flex flex-col gap-4">
+                <h2 className="text-2xl font-bold">Welcome back</h2>
+                <input type="email" placeholder="Email" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm focus:outline-none focus:border-neon-cyan/50" />
+                <div className="relative">
+                  <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm focus:outline-none focus:border-neon-cyan/50" />
                 </div>
-
-                {/* Email */}
-                <div className="group relative">
-                  <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                  />
-                </div>
-
-                {/* Password */}
-                <div className="group relative">
-                  <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-10 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    aria-label="Toggle password visibility"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
+                <MagneticButton className="mt-2">
+                  <button onClick={handleToast} className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-black">
+                    Sign In <ArrowRight className="h-4 w-4" />
                   </button>
-                </div>
-
-                <MagneticButton strength={0.15} className="mt-2">
-                  <Link
-                    href="/dashboard"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-primary-foreground transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
-                  >
-                    Sign In
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
                 </MagneticButton>
               </motion.div>
             ) : (
-              <motion.div
-                key={`signup-${step}`}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-4"
-              >
-                {step === 1 && (
-                  <>
-                    <div>
-                      <h2 className="text-2xl font-bold text-foreground">
-                        Create account
-                      </h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Start your streaming adventure
-                      </p>
-                    </div>
-                    <div className="group relative">
-                      <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                      <input
-                        type="email"
-                        placeholder="Email address"
-                        className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                      />
-                    </div>
-                    <div className="group relative">
-                      <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                      <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                      />
-                    </div>
-                    <div className="group relative">
-                      <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                      <input
-                        type="password"
-                        placeholder="Confirm password"
-                        className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                      />
-                    </div>
-                  </>
-                )}
-
-                {step === 2 && (
-                  <>
-                    <div>
-                      <h2 className="text-2xl font-bold text-foreground">
-                        Your profile
-                      </h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Tell us a bit about yourself
-                      </p>
-                    </div>
-                    <div className="group relative">
-                      <User className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-neon-cyan" />
-                      <input
-                        type="text"
-                        placeholder="Display name"
-                        className="w-full rounded-xl border border-border bg-secondary/50 py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground transition-all focus:border-neon-cyan/50 focus:bg-secondary focus:ring-1 focus:ring-neon-cyan/30 focus:outline-none"
-                      />
-                    </div>
-                    {/* Avatar selection placeholder */}
-                    <div className="flex gap-3">
-                      {[1, 2, 3, 4].map((i) => (
-                        <button
-                          key={i}
-                          className={`h-16 w-16 rounded-xl transition-all ${
-                            i === 1
-                              ? "border-2 border-neon-cyan shadow-[0_0_15px_rgba(0,240,255,0.3)]"
-                              : "border border-border hover:border-neon-cyan/30"
-                          }`}
-                          style={{
-                            background: `linear-gradient(${135 + i * 45}deg, rgba(0,240,255,${0.1 + i * 0.05}), rgba(255,51,102,${0.1 + i * 0.05}))`,
-                          }}
-                        >
-                          <span className="sr-only">Avatar option {i}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-
+              <motion.div key={`signup-${step}`} className="flex flex-col gap-4">
+                {step === 1 && <input type="email" placeholder="Email" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm" />}
+                {step === 2 && <input type="text" placeholder="Name" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm" />}
                 {step === 3 && (
-                  <>
-                    <div>
-                      <h2 className="text-2xl font-bold text-foreground">
-                        Pick your genres
-                      </h2>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        Select up to 5 genres you love
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {genres.map((genre) => (
-                        <button
-                          key={genre}
-                          onClick={() => toggleGenre(genre)}
-                          className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
-                            selectedGenres.includes(genre)
-                              ? "border border-neon-cyan/50 bg-neon-cyan/15 text-neon-cyan shadow-[0_0_10px_rgba(0,240,255,0.15)]"
-                              : "border border-border bg-secondary/50 text-muted-foreground hover:border-neon-cyan/20 hover:text-foreground"
-                          }`}
-                        >
-                          {genre}
-                        </button>
-                      ))}
-                    </div>
-                  </>
+                   <div className="flex flex-wrap gap-2">
+                   {genres.map((genre) => (
+                     <button key={genre} onClick={() => toggleGenre(genre)} className={`rounded-lg px-3 py-1 text-xs border ${selectedGenres.includes(genre) ? 'border-neon-cyan bg-neon-cyan/10 text-neon-cyan' : 'border-border'}`}>{genre}</button>
+                   ))}
+                 </div>
                 )}
-
-                {/* Navigation Buttons */}
                 <div className="mt-2 flex gap-3">
-                  {step > 1 && (
-                    <button
-                      onClick={() => setStep(step - 1)}
-                      className="flex items-center gap-2 rounded-xl border border-border bg-secondary/50 px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
-                    >
-                      <ArrowLeft className="h-4 w-4" />
-                      Back
-                    </button>
-                  )}
-                  <MagneticButton strength={0.15} className="flex-1">
-                    {step < 3 ? (
-                      <button
-                        onClick={() => setStep(step + 1)}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-primary-foreground transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
-                      >
-                        Continue
-                        <ArrowRight className="h-4 w-4" />
-                      </button>
-                    ) : (
-                      <Link
-                        href="/dashboard"
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-primary-foreground transition-all hover:shadow-[0_0_30px_rgba(0,240,255,0.3)]"
-                      >
-                        Get Started
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    )}
-                  </MagneticButton>
+                  {step > 1 && <button onClick={() => setStep(step - 1)} className="px-4 py-2 text-sm border border-border rounded-xl">Back</button>}
+                  <button onClick={() => step < 3 ? setStep(step + 1) : handleToast()} className="flex-1 bg-neon-cyan py-3 rounded-xl text-black font-bold text-sm">
+                    {step < 3 ? "Continue" : "Get Started"}
+                  </button>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
+      </div>
+
+      {/* 3. RATING SYSTEM (ROUND 3) */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center glass p-4 rounded-2xl border border-neon-cyan/20">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Rate App</span>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button key={star} onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)} onClick={() => setRating(star)}>
+              <Star className={`h-5 w-5 transition-colors ${star <= (hover || rating) ? "fill-neon-cyan text-neon-cyan" : "text-muted-foreground opacity-30"}`} />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 4. TOAST NOTIFICATION (ROUND 3) */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] glass px-6 py-3 rounded-full border border-neon-cyan/50 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+            <span className="text-neon-cyan text-sm font-medium flex items-center gap-2">
+              <Check className="h-4 w-4" /> Success! Action completed.
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* 5. ACTIVITY FEED (ROUND 3) */}
+      <div className="fixed top-24 right-6 z-50 hidden xl:block w-64">
+        <div className="glass p-4 rounded-2xl border border-neon-cyan/20">
+          <h3 className="text-[10px] font-bold uppercase tracking-widest text-neon-cyan mb-3 flex items-center gap-2">
+            <Zap className="h-3 w-3" /> Recent Activity
+          </h3>
+          <ul className="space-y-3">
+            {[
+              { user: "Alex", action: "joined Nexus", time: "2m ago" },
+              { user: "Sarah", action: "watched Interstellar", time: "15m ago" },
+              { user: "Mike", action: "rated 5 stars", time: "1h ago" }
+            ].map((item, i) => (
+              <li key={i} className="text-[10px] border-l border-neon-cyan/30 pl-3 py-1">
+                <span className="text-white font-medium">{item.user}</span> 
+                <span className="text-muted-foreground"> {item.action}</span>
+                <div className="text-[8px] text-neon-cyan/50 mt-1 uppercase">{item.time}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )

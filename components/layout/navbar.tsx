@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
-import { Search, User, Menu, X, Zap } from "lucide-react"
+import { Search, User, Menu, X, Zap, ListTodo } from "lucide-react"
 import { MagneticButton } from "@/components/effects/magnetic-button"
 import { cn } from "@/lib/utils"
 
@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/search", label: "Discover" },
   { href: "/profile", label: "Profile" },
+  { href: "/task", label: "Task" },
 ]
 
 export function Navbar() {
@@ -70,6 +71,14 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-3 md:flex">
+          <Link href="/task">
+            <MagneticButton strength={0.2}>
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-neon-cyan/10 hover:text-neon-cyan">
+                <ListTodo className="h-4 w-4" />
+                <span className="sr-only">Task</span>
+              </div>
+            </MagneticButton>
+          </Link>
           <Link href="/search">
             <MagneticButton strength={0.2}>
               <div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-neon-cyan/10 hover:text-neon-cyan">
@@ -88,14 +97,21 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground md:hidden"
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <Link href="/task" aria-label="Task" onClick={() => setMobileOpen(false)}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-neon-cyan/10 hover:text-neon-cyan">
+              <ListTodo className="h-5 w-5" />
+            </div>
+          </Link>
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Menu */}

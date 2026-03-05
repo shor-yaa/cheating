@@ -1,0 +1,51 @@
+:root {
+  --primary-bg: #f5fcff;
+  --text-dark: #292929;
+  --text-light: #ffffff;
+  --accent-blue: #86c5da;
+  --card-blue: #acccda;
+  --card-light-blue: #b4d8e4;
+  --card-lighter-blue: #d8e6ef;
+  --footer-text: #050505;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-bg);
+  background: radial-gradient(circle at 50% 50%, #ebf3f5 0%, #c5e2f0 100%);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1558px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+/* Utility for merged images */
+.merged-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.merged-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

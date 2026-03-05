@@ -12,13 +12,13 @@ interface Particle {
   color: string
 }
 
+const COLORS = ["#00f0ff", "#4466ff", "#ff3366", "#7b61ff"] as const
+
 export function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const animationRef = useRef<number>(0)
-
-  const colors = ["#00f0ff", "#4466ff", "#ff3366", "#7b61ff"]
 
   const initParticles = useCallback(
     (width: number, height: number) => {
@@ -30,10 +30,10 @@ export function ParticleBackground() {
         vy: (Math.random() - 0.5) * 0.5,
         size: Math.random() * 2 + 0.5,
         opacity: Math.random() * 0.5 + 0.1,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
       }))
     },
-    [colors]
+    []
   )
 
   useEffect(() => {
@@ -46,6 +46,10 @@ export function ParticleBackground() {
     const resize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
+      // Avoid the initial "spotlight stuck at (0,0)" look on first paint.
+      if (mouseRef.current.x === 0 && mouseRef.current.y === 0) {
+        mouseRef.current = { x: canvas.width / 2, y: canvas.height / 2 }
+      }
       initParticles(canvas.width, canvas.height)
     }
 
@@ -59,6 +63,23 @@ export function ParticleBackground() {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      // Cursor-reactive "energy field" background layer.
+      // Kept very subtle so it reads as ambient depth behind the particles/content.
+      const mx = mouseRef.current.x
+      const my = mouseRef.current.y
+      const radius = Math.min(canvas.width, canvas.height) * 0.6
+
+      ctx.save()
+      ctx.globalCompositeOperation = "source-over"
+      const field = ctx.createRadialGradient(mx, my, 0, mx, my, radius)
+      field.addColorStop(0, "rgba(0, 240, 255, 0.08)")
+      field.addColorStop(0.35, "rgba(68, 102, 255, 0.04)")
+      field.addColorStop(0.65, "rgba(255, 51, 102, 0.02)")
+      field.addColorStop(1, "rgba(5, 5, 16, 0)")
+      ctx.fillStyle = field
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx.restore()
 
       particlesRef.current.forEach((p, i) => {
         p.x += p.vx

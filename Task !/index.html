@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electric Scooter Landing Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="global.css">
+  <style id="sections-styles">
+    /* CSS for section section:BackgroundLayers */
+    .background-layers {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Update this existing class */
+    .scooter-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 2;
+      transform: scaleX(-1);
+      /* Flips the scooter to face left */
+    }
+
+    .blob {
+      position: absolute;
+      opacity: 0.6;
+    }
+
+    .blob-1 {
+      top: -5%;
+      left: -5%;
+      width: 30%;
+      filter: blur(100px);
+    }
+
+    .blob-2 {
+      top: 15%;
+      left: -20%;
+      width: 60%;
+      opacity: 0.4;
+    }
+
+    .blob-3 {
+      top: 20%;
+      right: -10%;
+      width: 40%;
+      filter: blur(150px);
+    }
+
+    .blob-4 {
+      top: 10%;
+      right: 10%;
+      width: 50%;
+      opacity: 0.3;
+    }
+
+    /* CSS for section section:Header */
+    #header {
+      padding-top: 45px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 69px;
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 40px;
+    }
+
+    .main-nav a {
+      text-decoration: none;
+      color: #292929;
+      font-weight: 500;
+      text-transform: lowercase;
+      font-size: 18px;
+    }
+
+    .btn-login {
+      background-color: #86c5da;
+      border: 2px solid #66b2ca;
+      border-radius: 8px;
+      padding: 10px 30px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #000;
+      transition: all 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background-color: #66b2ca;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .main-nav {
+        display: none;
+        /* Simplified for mobile */
+      }
+    }
+
+    /* CSS for section section:Hero */
+    #hero {
+      padding: 60px 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    .hero-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-content {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      z-index: 2;
+    }
+
+    .hero-subtitle {
+      font-size: 24px;
+      font-weight: 300;
+      letter-spacing: 5px;
+      margin-bottom: -10px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: 120px;
+      font-weight: 800;
+      margin: 0;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: #42454a;
+      margin: 20px 0 40px;
+      max-width: 300px;
+    }
+
+    .btn-preorder {
+      background-color: #6edacb;
+      border: 2px solid #5ec6b8;
+      border-radius: 8px;
+      padding: 12px 40px;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .hero-image-wrapper {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .scooter-composite {
+      position: relative;
+      width: 100%;
+      max-width: 750px;
+      height: 600px;
+    }
+
+    .scooter-bg {
+      position: absolute;
+      top: 10%;
+      right: 10%;
+      width: 30%;
+      z-index: 1;
+    }
+
+    .scooter-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 2;
+    }
+
+    .hero-specs {
+      grid-column: 2;
+      grid-row: 3;
+      display: flex;
+      justify-content: space-around;
+      background: rgba(125, 185, 206, 0.15);
+      border: 1.5px solid rgba(134, 196, 217, 0.36);
+      border-radius: 17px;
+      padding: 20px;
+      backdrop-filter: blur(3px);
+      margin-top: -50px;
+      z-index: 3;
+      position: relative;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .spec-val {
+      font-weight: 700;
+      font-size: 20px;
+      color: #3b3b3b;
+    }
+
+    .spec-label {
+      font-size: 14px;
+      color: #3b3b3b;
+    }
+
+    .hero-nav {
+      grid-column: 1 / span 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding: 0 20px;
+    }
+
+    .nav-prev,
+    .nav-next {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      opacity: 0.6;
+      font-weight: 600;
+    }
+
+    .nav-dots {
+      display: flex;
+      gap: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-title {
+        font-size: 80px;
+      }
+
+      .scooter-composite {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-container {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-content {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: center;
+      }
+
+      .hero-image-wrapper {
+        grid-column: 1;
+        grid-row: 2;
+      }
+
+      .hero-specs {
+        grid-column: 1;
+        grid-row: 3;
+        margin-top: 20px;
+      }
+
+      .hero-desc {
+        margin: 20px auto 40px;
+      }
+    }
+
+    /* CSS for section section:MapTestDrive */
+    #map-test-drive {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 300;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+
+    .section-title span {
+      font-weight: 800;
+      font-size: 48px;
+      display: block;
+      margin-top: 10px;
+    }
+
+    .section-desc {
+      color: #42454a;
+      margin-bottom: 50px;
+    }
+
+    .map-visual {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .map-visual img {
+      width: 100%;
+      opacity: 0.8;
+    }
+
+    /* CSS for section section:Features */
+    #features {
+      padding: 60px 0;
+    }
+
+    .features-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .features-header h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .features-header p {
+      color: #160f0f;
+      line-height: 1.6;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background-color: #acccda;
+      border-radius: 20px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .icon-box {
+      margin-bottom: 20px;
+      height: 50px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #151212;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #111010;
+    }
+
+    @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CSS for section section:Pricing */
+    #pricing {
+      padding: 80px 0;
+    }
+
+    .pricing-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px;
+    }
+
+    .pricing-header h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1110px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .price-card.golden {
+      background-color: #acccda;
+    }
+
+    .price-card.silver {
+      background-color: #b4d8e4;
+    }
+
+    .price-card.premium {
+      background-color: #d8e6ef;
+    }
+
+    .price-icon {
+      width: 76px;
+      height: 76px;
+      margin-bottom: 20px;
+    }
+
+    .price-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .price-amount {
+      font-size: 48px;
+      font-weight: 700;
+      color: #3b3b3b;
+      margin: 20px 0;
+      border-top: 1px solid #404047;
+      border-bottom: 1px solid #404047;
+      width: 100%;
+      padding: 20px 0;
+    }
+
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px 0;
+      text-align: left;
+      width: 100%;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .check {
+      display: inline-block;
+      width: 29px;
+      height: 29px;
+      background-color: #222228;
+      border-radius: 10px;
+      margin-right: 15px;
+      position: relative;
+    }
+
+    .check::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+
+    .btn-book {
+      background-color: #000;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: auto;
+    }
+
+    @media (max-width: 900px) {
+      .pricing-cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+    }
+
+    /* CSS for section section:Contact */
+    #contact {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .contact-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(125, 185, 206, 0.37);
+      border-radius: 108px;
+      padding: 60px 100px;
+      backdrop-filter: blur(13px);
+    }
+
+    .contact-form-area {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .contact-form-area h2 {
+      font-size: 36px;
+      margin-bottom: 40px;
+    }
+
+    .input-box {
+      background-color: rgba(125, 185, 206, 0.62);
+      border: 1px solid #000;
+      border-radius: 32px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #000;
+    }
+
+    .input-box:last-child {
+      background-color: rgba(110, 218, 203, 0.44);
+    }
+
+    .contact-image {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .contact-image img {
+      max-width: 500px;
+      transform: scaleX(-1);
+      /* Mirror image based on design */
+    }
+
+    @media (max-width: 900px) {
+      .contact-container {
+        flex-direction: column;
+        padding: 40px;
+        border-radius: 40px;
+      }
+
+      .contact-form-area {
+        width: 100%;
+        margin-bottom: 40px;
+      }
+
+      .contact-image img {
+        width: 100%;
+      }
+    }
+
+    /* CSS for section section:Footer */
+    #footer {
+      position: relative;
+      padding: 80px 0 40px;
+      margin-top: 100px;
+      color: #050505;
+    }
+
+    .footer-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, #dff3ff 0%, #6aaac0 100%);
+      border-top-left-radius: 70px;
+      border-top-right-radius: 70px;
+      z-index: -1;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+    }
+
+    .footer-brand {
+      max-width: 400px;
+    }
+
+    .footer-logo {
+      width: 70px;
+      margin-bottom: 30px;
+    }
+
+    .footer-desc {
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .link-col h4 {
+      font-size: 16px;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .link-col a {
+      display: block;
+      text-decoration: none;
+      color: #292929;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .copyright {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-brand {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
+  </style>
+  <script src="global.js" defer></script>
+</head>
+
+<body>
+  <div class="background-layers">
+    <!-- Decorative background blobs -->
+    <img src="images/56_17.svg" class="blob blob-1" alt="" />
+    <img src="images/35_5.svg" class="blob blob-2" alt="" />
+    <img src="images/82_2.svg" class="blob blob-3" alt="" />
+    <img src="images/35_4.svg" class="blob blob-4" alt="" />
+  </div>
+  <section id="header">
+    <div class="container header-container">
+      <div class="logo">
+        <img src="images/35_20.svg" alt="Logo">
+      </div>
+      <nav class="main-nav">
+        <a href="#">home</a>
+        <a href="#">Products</a>
+        <a href="#">gallery</a>
+        <a href="#">contact</a>
+      </nav>
+      <div class="auth-buttons">
+        <button class="btn-login">lOGIN</button>
+      </div>
+    </div>
+  </section>
+  <section id="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <h3 class="hero-subtitle">let’s Ride the</h3>
+        <h1 class="hero-title">FUTURE</h1>
+        <p class="hero-desc">Simple and sleek design with users in mind.</p>
+        <button class="btn-preorder">pre-order</button>
+      </div>
+
+      <div class="hero-image-wrapper">
+        <!--merged image-->
+        <div class="scooter-composite">
+          <img src="images/35_117.svg" class="scooter-bg" alt="">
+          <img src="images/106cca085efcbe7934821dfbea7b0910a7d9811d.png" class="scooter-img" alt="Electric Scooter">
+        </div>
+      </div>
+
+      <div class="hero-specs">
+        <div class="spec-item">
+          <span class="spec-val">50 km/hr</span>
+          <span class="spec-label">speed</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-val">80km</span>
+          <span class="spec-label">battery range</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-val">3.5hr</span>
+          <span class="spec-label">charging time</span>
+        </div>
+      </div>
+
+      <div class="hero-nav">
+        <div class="nav-prev">
+          <img src="images/35_71.svg" alt="Prev">
+          <span>Prev</span>
+        </div>
+        <div class="nav-dots">
+          <img src="images/35_74.svg" alt="">
+          <img src="images/35_75.svg" alt="">
+          <img src="images/35_76.svg" alt="">
+          <img src="images/35_77.svg" alt="">
+        </div>
+        <div class="nav-next">
+          <span>Next</span>
+          <img src="images/35_72.svg" alt="Next">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="map-test-drive">
+    <div class="container map-container">
+      <div class="map-text">
+        <h2 class="section-title">BOOK TEST DRIVE<br><span>ACROSS WORLD</span></h2>
+        <p class="section-desc">Simple and sleek design with users in mind.</p>
+      </div>
+      <div class="map-visual">
+        <img src="images/d5e3b72a28646006589460a04845bfa27d130267.png" alt="World Map">
+      </div>
+    </div>
+  </section>
+  <section id="features">
+    <div class="container">
+      <div class="features-header">
+        <h2>Feature Boxes</h2>
+        <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+          problem.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <div class="feature-card">
+          <div class="icon-box">
+            <img src="images/16_255.svg" alt="Icon">
+          </div>
+          <h3>Fully Customizable</h3>
+          <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+            problem.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card">
+          <div class="icon-box">
+            <img src="images/16_264.svg" alt="Icon">
+          </div>
+          <h3>Fully Customizable</h3>
+          <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+            problem.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card">
+          <div class="icon-box">
+            <img src="images/16_280.svg" alt="Icon">
+          </div>
+          <h3>Fully Customizable</h3>
+          <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+            problem.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card">
+          <div class="icon-box">
+            <img src="images/16_276.svg" alt="Icon">
+          </div>
+          <h3>Fully Customizable</h3>
+          <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+            problem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="pricing">
+    <div class="container">
+      <div class="pricing-header">
+        <h2>Our Best Prices</h2>
+        <p>A good design is not only aesthetically pleasing, but also functional. It should be able to solve the
+          problem.</p>
+      </div>
+
+      <div class="pricing-cards">
+        <!-- Golden Package -->
+        <div class="price-card golden">
+          <div class="price-icon"><img src="images/17_90.svg" alt=""></div>
+          <h3>Golden Package</h3>
+          <div class="price-amount">$70</div>
+          <ul class="features-list">
+            <li><span class="check"></span>100 + Free Template</li>
+            <li><span class="check"></span>10 Team Members</li>
+            <li><span class="check"></span>Priority Support</li>
+            <li><span class="check"></span>Premium Features</li>
+            <li><span class="check"></span>50 Integrations</li>
+          </ul>
+          <button class="btn-book">book now</button>
+        </div>
+
+        <!-- Silver Package -->
+        <div class="price-card silver">
+          <div class="price-icon"><img src="images/17_51.svg" alt=""></div>
+          <h3>Silver Package</h3>
+          <div class="price-amount">$40</div>
+          <ul class="features-list">
+            <li><span class="check"></span>100 + Free Template</li>
+            <li><span class="check"></span>10 Team Members</li>
+            <li><span class="check"></span>Priority Support</li>
+            <li><span class="check"></span>Premium Features</li>
+            <li><span class="check"></span>50 Integrations</li>
+          </ul>
+          <button class="btn-book">book now</button>
+        </div>
+
+        <!-- Premium Package -->
+        <div class="price-card premium">
+          <div class="price-icon"><img src="images/17_129.svg" alt=""></div>
+          <h3>Premium Package</h3>
+          <div class="price-amount">$120</div>
+          <ul class="features-list">
+            <li><span class="check"></span>100 + Free Template</li>
+            <li><span class="check"></span>10 Team Members</li>
+            <li><span class="check"></span>Priority Support</li>
+            <li><span class="check"></span>Premium Features</li>
+            <li><span class="check"></span>50 Integrations</li>
+          </ul>
+          <button class="btn-book">book now</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="container contact-container">
+      <div class="contact-form-area">
+        <h2>To contact</h2>
+        <div class="form-group">
+          <div class="input-box">your mail</div>
+          <div class="input-box">name</div>
+          <div class="input-box">address</div>
+        </div>
+      </div>
+      <div class="contact-image">
+        <img src="images/106cca085efcbe7934821dfbea7b0910a7d9811d.png" alt="Scooter">
+      </div>
+    </div>
+  </section>
+  <section id="footer">
+    <div class="footer-bg"></div>
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="images/56_3.svg" alt="Logo" class="footer-logo">
+        <p class="footer-desc">A good design is not only aesthetically pleasing, but also functional. It should be able
+          to solve the problem</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="link-col">
+          <h4>Sections</h4>
+          <a href="#">Home</a>
+          <a href="#">Section One</a>
+          <a href="#">Section Two</a>
+          <a href="#">Section Tree</a>
+        </div>
+        <div class="link-col">
+          <h4>Sections</h4>
+          <a href="#">Home</a>
+          <a href="#">Section One</a>
+          <a href="#">Section Two</a>
+          <a href="#">Section Tree</a>
+        </div>
+        <div class="link-col">
+          <h4>Sections</h4>
+          <a href="#">Home</a>
+          <a href="#">Section One</a>
+          <a href="#">Section Two</a>
+          <a href="#">Section Tree</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="social-icons">
+          <img src="images/40_15.svg" alt="Social">
+          <img src="images/40_14.svg" alt="Social">
+          <img src="images/40_13.svg" alt="Social">
+        </div>
+        <p class="copyright">All Rights Reservd Inkyy.com 2022</p>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

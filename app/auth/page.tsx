@@ -13,6 +13,7 @@ import {
   EyeOff,
   Zap,
   Check,
+  HelpCircle, // Added for FAB
 } from "lucide-react"
 import { CursorGlow } from "@/components/effects/cursor-glow"
 import { ParticleBackground } from "@/components/effects/particle-background"
@@ -53,7 +54,7 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [selectedGenres, setSelectedGenres] = useState<string[]>([])
   
-  // NEW STATE FOR ROUND 3
+  // ROUND 3 STATES
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
   const [showToast, setShowToast] = useState(false)
@@ -78,7 +79,7 @@ export default function AuthPage() {
       <CursorGlow />
       <ParticleBackground />
 
-      {/* 1. BREADCRUMB NAVIGATION (ROUND 3) */}
+      {/* 1. BREADCRUMB NAVIGATION */}
       <div className="absolute top-6 left-24 z-20 hidden md:block">
         <Breadcrumb>
           <BreadcrumbList>
@@ -193,13 +194,17 @@ export default function AuthPage() {
           <AnimatePresence mode="wait">
             {mode === "signin" ? (
               <motion.div key="signin" className="flex flex-col gap-4">
-                <h2 className="text-2xl font-bold">Welcome back</h2>
-                <input type="email" placeholder="Email" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm focus:outline-none focus:border-neon-cyan/50" />
-                <div className="relative">
-                  <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm focus:outline-none focus:border-neon-cyan/50" />
+                <h2 className="text-2xl font-bold text-foreground">Welcome back</h2>
+                <div className="group relative">
+                  <Mail className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground group-focus-within:text-neon-cyan" />
+                  <input type="email" placeholder="Email" className="w-full rounded-xl border border-border bg-secondary/50 py-3 pl-10 text-sm focus:outline-none focus:border-neon-cyan/50" />
+                </div>
+                <div className="group relative">
+                  <Lock className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground group-focus-within:text-neon-cyan" />
+                  <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full rounded-xl border border-border bg-secondary/50 py-3 pl-10 text-sm focus:outline-none focus:border-neon-cyan/50" />
                 </div>
                 <MagneticButton className="mt-2">
-                  <button onClick={handleToast} className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-black">
+                  <button onClick={handleToast} className="flex w-full items-center justify-center gap-2 rounded-xl bg-neon-cyan py-3 text-sm font-semibold text-black hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
                     Sign In <ArrowRight className="h-4 w-4" />
                   </button>
                 </MagneticButton>
@@ -207,17 +212,17 @@ export default function AuthPage() {
             ) : (
               <motion.div key={`signup-${step}`} className="flex flex-col gap-4">
                 {step === 1 && <input type="email" placeholder="Email" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm" />}
-                {step === 2 && <input type="text" placeholder="Name" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm" />}
+                {step === 2 && <input type="text" placeholder="Display Name" className="w-full rounded-xl border border-border bg-secondary/50 p-3 text-sm" />}
                 {step === 3 && (
                    <div className="flex flex-wrap gap-2">
                    {genres.map((genre) => (
-                     <button key={genre} onClick={() => toggleGenre(genre)} className={`rounded-lg px-3 py-1 text-xs border ${selectedGenres.includes(genre) ? 'border-neon-cyan bg-neon-cyan/10 text-neon-cyan' : 'border-border'}`}>{genre}</button>
+                     <button key={genre} onClick={() => toggleGenre(genre)} className={`rounded-lg px-3 py-1 text-xs border transition-all ${selectedGenres.includes(genre) ? 'border-neon-cyan bg-neon-cyan/10 text-neon-cyan' : 'border-border hover:border-neon-cyan/30'}`}>{genre}</button>
                    ))}
                  </div>
                 )}
                 <div className="mt-2 flex gap-3">
-                  {step > 1 && <button onClick={() => setStep(step - 1)} className="px-4 py-2 text-sm border border-border rounded-xl">Back</button>}
-                  <button onClick={() => step < 3 ? setStep(step + 1) : handleToast()} className="flex-1 bg-neon-cyan py-3 rounded-xl text-black font-bold text-sm">
+                  {step > 1 && <button onClick={() => setStep(step - 1)} className="px-4 py-2 text-sm border border-border rounded-xl text-muted-foreground hover:text-foreground transition-colors">Back</button>}
+                  <button onClick={() => step < 3 ? setStep(step + 1) : handleToast()} className="flex-1 bg-neon-cyan py-3 rounded-xl text-black font-bold text-sm hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all">
                     {step < 3 ? "Continue" : "Get Started"}
                   </button>
                 </div>
@@ -227,49 +232,29 @@ export default function AuthPage() {
         </motion.div>
       </div>
 
-      {/* 3. RATING SYSTEM (ROUND 3) */}
+      {/* 3. RATING SYSTEM (BOTTOM RIGHT) */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center glass p-4 rounded-2xl border border-neon-cyan/20">
         <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-2">Rate App</span>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
-            <button key={star} onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)} onClick={() => setRating(star)}>
-              <Star className={`h-5 w-5 transition-colors ${star <= (hover || rating) ? "fill-neon-cyan text-neon-cyan" : "text-muted-foreground opacity-30"}`} />
+            <button key={star} onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)} onClick={() => setRating(star)} className="transition-transform hover:scale-125">
+              <Star className={`h-5 w-5 transition-colors ${star <= (hover || rating) ? "fill-neon-cyan text-neon-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]" : "text-muted-foreground opacity-30"}`} />
             </button>
           ))}
         </div>
       </div>
 
-      {/* 4. TOAST NOTIFICATION (ROUND 3) */}
+      {/* 4. TOAST NOTIFICATION */}
       <AnimatePresence>
         {showToast && (
           <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }} className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] glass px-6 py-3 rounded-full border border-neon-cyan/50 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
             <span className="text-neon-cyan text-sm font-medium flex items-center gap-2">
-              <Check className="h-4 w-4" /> Success! Action completed.
+              <Check className="h-4 w-4" /> Account Authenticated
             </span>
           </motion.div>
         )}
       </AnimatePresence>
-      {/* 5. ACTIVITY FEED (ROUND 3) */}
-      <div className="fixed top-24 right-6 z-50 hidden xl:block w-64">
-        <div className="glass p-4 rounded-2xl border border-neon-cyan/20">
-          <h3 className="text-[10px] font-bold uppercase tracking-widest text-neon-cyan mb-3 flex items-center gap-2">
-            <Zap className="h-3 w-3" /> Recent Activity
-          </h3>
-          <ul className="space-y-3">
-            {[
-              { user: "Alex", action: "joined Nexus", time: "2m ago" },
-              { user: "Sarah", action: "watched Interstellar", time: "15m ago" },
-              { user: "Mike", action: "rated 5 stars", time: "1h ago" }
-            ].map((item, i) => (
-              <li key={i} className="text-[10px] border-l border-neon-cyan/30 pl-3 py-1">
-                <span className="text-white font-medium">{item.user}</span> 
-                <span className="text-muted-foreground"> {item.action}</span>
-                <div className="text-[8px] text-neon-cyan/50 mt-1 uppercase">{item.time}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  )
-}
+
+      {/* 5. ACTIVITY FEED (TOP RIGHT) */}
+      <div className="fixed top-24 right-6 z-50 hidden
+      
